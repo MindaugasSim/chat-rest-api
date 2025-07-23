@@ -1,6 +1,7 @@
 package com.chatapp.restapi.security;
 
 import com.chatapp.restapi.service.AuthService;
+import com.chatapp.restapi.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,11 +19,14 @@ import java.io.IOException;
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private JwtService jwtService;
+    private final JwtService jwtService;
+    private final AuthService authService;
 
     @Autowired
-    private AuthService authService;
+    public JwtAuthFilter(JwtService jwtService, AuthService authService) {
+        this.jwtService = jwtService;
+        this.authService = authService;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
