@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import com.chatapp.restapi.entity.User;
+import java.util.Map;
 
 @Service
 public class MessageService {
@@ -26,5 +28,30 @@ public class MessageService {
                         msg.getContent(),
                         msg.getCreatedAt()))
                 .toList();
+    }
+
+    public void anonymizeMessages(User from, User to) {
+        List<Message> messages = messageRepository.findByUserId(from.getId());
+        for (Message message : messages) {
+            message.setUser(to);
+        }
+        messageRepository.saveAll(messages);
+        messageRepository.flush();
+    }
+
+    public List<Map<String, Object>> getUserStatistics() {
+        List<Object[]> rows = messageRepository.getUserStatisticsNative();
+        List<Map<String, Object>> stats = new java.util.ArrayList<>();
+        for (Object[] row : rows) {
+            Map<String, Object> map = new java.util.HashMap<>();
+            map.put("username", row[0]);
+            map.put("message_count", row[1]);
+            map.put("first_message_time", row[2]);
+            map.put("last_message_time", row[3]);
+            map.put("avg_message_length", row[4]);
+            map.put("last_message_text", row[5]);
+            stats.add(map);
+        }
+        return stats;
     }
 }

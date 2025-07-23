@@ -1,7 +1,6 @@
 package com.chatapp.restapi.controller;
 
 import com.chatapp.restapi.dto.MessageDTO;
-import com.chatapp.restapi.entity.CustomUserDetails;
 import com.chatapp.restapi.entity.User;
 import com.chatapp.restapi.repository.MessageRepository;
 import com.chatapp.restapi.repository.UserRepository;
@@ -82,7 +81,7 @@ class MessageControllerTest {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setBearerAuth(token); // Add JWT token
+        headers.setBearerAuth(token);
         System.out.println("Authorization header: " + headers.getFirst(HttpHeaders.AUTHORIZATION));
 
         HttpEntity<MessageDTO> httpEntity = new HttpEntity<>(request, headers);
