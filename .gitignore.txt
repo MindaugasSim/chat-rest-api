@@ -1,0 +1,12 @@
+# .gitignore
+/build/
+/.gradle/
+/.idea/
+/out/
+*.iml
+*.log
+*.class
+*.jar
+*.war
+*.db
+*.h2.db
